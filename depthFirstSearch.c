@@ -9,6 +9,7 @@
 
 bool checkIfAvailable(node * tocheck);
 void pushIfNeeded(node * theNode, Stack *toVisit);
+bool checkForPerculation(bool* rows,bool* columns, int size);
 
 void depthFirstSearch(node** lattice, int size){
 	Stack *toVisit = initStack();  //creates a queue to make a to do list for sites to check
@@ -20,6 +21,8 @@ void depthFirstSearch(node** lattice, int size){
 	}
 	
 	//check from the left to the right first
+	bool* permaColumns;
+	bool* permaRows;
 	for(int j = 0; j < size; j++){
 		for(int i = 0; i < size; i++){
 			int istart = i;
@@ -32,12 +35,21 @@ void depthFirstSearch(node** lattice, int size){
 			
 			if(lattice[istart][jstart].populated == false){printf("EMPTY\n");}		
 			int currentSize = 0;
+			bool* columns = (bool*) malloc(size * sizeof(bool));
+			bool* rows = (bool*) malloc(size * sizeof(bool));
+			//new array of bools for columns
+			//new array of bools for rows
 			while(!isEmpty(toVisit)){
 				currentSize++;
+			
 				stackNode *pulled = pop(toVisit);
 				
 				istart = pulled->x;
 				jstart = pulled->y;
+				columns[istart] = true;
+				rows[jstart] = true;
+				
+				//update arrays
 				printf("TEST %i, %i \n",istart,jstart);
 				free(pulled);
 				
@@ -77,13 +89,35 @@ void depthFirstSearch(node** lattice, int size){
 			}
 			if(currentSize >= maxSize) {
 				maxSize = currentSize;
+				permaColumns = columns;
+				permaRows = rows;
 			}
+			//else free(extrastack)
 		}
 	}
-	printf("%i\n",maxSize);
+	bool percolates = checkForPerculation(permaRows,permaColumns,size);
+	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
 }
 
-bool checkForPerculation(Stack * cluster){
+bool checkForPerculation(bool* rows, bool* columns, int size){
+	bool allTrue = true;
+	for(int i = 0; i < size; i++){
+		if(!rows[i]){
+			allTrue = false;
+		}
+	}
+	if(allTrue) {
+		return true;
+	}
+	allTrue = true;
+	for(int i = 0; i < size; i++){
+		if(!columns[i]){
+			allTrue = false;
+		}
+	}
+	return allTrue;
+	//in each item of biggest
+	
 	return true;
 }
 
