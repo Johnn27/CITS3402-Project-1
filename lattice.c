@@ -29,10 +29,9 @@ void printgraph(node **n,int size){
 
 node** generateLattice(int size){
  time_t t;
- srand((int) 1 /*time(&t)*/);	//Create seed for random number generator
+ srand((unsigned) 1);//(unsigned) time(&t));	//Create seed for random number generator
 //node* col = (node *)calloc(size*size,sizeof(node *));
 node** n = (node **)malloc(size * sizeof(node *));
-
 
 for (int i = 0; i < size; ++i)
     n[i] = malloc(size * sizeof(node));
