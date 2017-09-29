@@ -27,8 +27,8 @@ void printgraph(node **n,int size){
  } 
 }
 
-node** generateLattice(int size){
- time_t t;
+node** generateLattice(int size,double prob){
+// time_t t;
  srand((int) 1 /*time(&t)*/);	//Create seed for random number generator
 //node* col = (node *)calloc(size*size,sizeof(node *));
 node** n = (node **)malloc(size * sizeof(node *));
@@ -52,8 +52,9 @@ return n;
 
 
 int main(int argc,char* argv[]){
-int size = SETSIZE;
-node** lattice = generateLattice(size);
+int size = atoi(argv[1]);
+double prob = atof(argv[2]);
+node** lattice = generateLattice(size,prob);
 //printgraph(lattice,size);	
 depthFirstSearch(lattice,size);
 return 0;
