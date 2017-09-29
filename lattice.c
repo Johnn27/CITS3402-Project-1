@@ -54,7 +54,7 @@ return n;
 int main(int argc,char* argv[]){
 int size = SETSIZE;
 node** lattice = generateLattice(size);
-printgraph(lattice,size);	
+//printgraph(lattice,size);	
 depthFirstSearch(lattice,size);
 return 0;
 }

@@ -11,13 +11,14 @@
 
 
 
-stackNode *tailNode;
-stackNode *start;
+// stackNode *tailNode;
+// stackNode *start;
 
 
 
 Stack * initStack(){
 	Stack *newStack = (Stack *) malloc(sizeof(Stack));
+	newStack->start = NULL;
 	return newStack;
 }
 // void startStack(int x, int y){
@@ -36,27 +37,21 @@ Stack * initStack(){
 
 void push(int x, int y, Stack * stack){ //adding an element to the end of the que
 	stackNode *a;
-	a = (stackNode *) malloc(sizeof(stackNode));
+	a = (stackNode*) malloc(sizeof(stackNode));
 	a->x = x;
 	a->y = y;
 	//printf("pushing x:%i and y:%i\n",a->x,a->y);
-	if(stack->start == NULL){
+	if(stack->start){
+		a->next = stack->start;
 		stack->start = a;
-		return;
 	}
 	else{
-	// a->parent = stack->end;
-	a->next = stack->start;
 	stack->start = a;
-	// stack->end->next = a;
-	// stack->end = a; 
 	}
-	return;
 }
 
 stackNode pop(Stack *stack){
 	if(stack->start == NULL) return;// NULL;
-	
 	stackNode result = *stack->start;
 	stackNode * togo = stack->start;
 	stack->start = stack->start->next;
@@ -64,17 +59,6 @@ stackNode pop(Stack *stack){
 	free(togo);
 	return result;
 }
-
-// bool checkIfPresent(int xCheck, int yCheck, Stack *stack){
-	// stackNode *iterator = start;
-	// while(iterator != NULL){
-		// if(iterator->x == xCheck && iterator->y == yCheck){
-			// return true;
-		// }
-		// else iterator = iterator->next;
-	// }
-	// return false;
-// }
 
 bool isEmpty(Stack * s){
 	if(s->start == NULL) {

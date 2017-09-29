@@ -1,11 +1,11 @@
 
 
-typedef struct{
+typedef struct _stackNode stackNode;
+struct _stackNode{
 	int x;
 	int y;
-	struct stackNode *parent;
-	struct stackNode *next;
-} stackNode;
+	stackNode *next;
+};
 
 typedef struct{
 	stackNode *start;
