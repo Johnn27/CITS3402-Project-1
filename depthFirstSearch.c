@@ -26,10 +26,10 @@ void depthFirstSearch(node** lattice, int size){
 	}
 	
 	//check from the left to the right first
-	bool* permaColumns = (bool*) malloc(size * sizeof(bool));
-	bool* permaRows  = (bool*) malloc(size * sizeof(bool));
+	bool* permaColumns;
+	bool* permaRows;
 	bool* columns = (bool*) malloc(size * sizeof(bool));
-	bool* rows = (bool*) malloc(size * sizeof(bool));
+	bool* rows = (bool*)malloc(size*sizeof(bool));	
 	for(int j = 0; j < size; j++){
 		for(int i = 0; i < size; i++){
 			int istart = i;
@@ -43,14 +43,18 @@ void depthFirstSearch(node** lattice, int size){
 			
 			//if(lattice[istart][jstart].populated == false){printf("EMPTY\n");}		
 			int currentSize = 0;
-			// columns = (bool*) realloc(columns, size * sizeof(bool));
-			// rows = (bool*) realloc(rows, size * sizeof(bool));
-			
+			columns = (bool*) realloc(columns,size * sizeof(bool));
+			rows = (bool*) realloc(rows, size * sizeof(bool));
+			//new array of bools for columns
+			//new array of bools for rows
 			while(!isEmpty(toVisit)){
 				currentSize++;
-			
-				stackNode pulled = pop(toVisit);
 				
+				stackNode pulled;	
+				if(hasNextPop(toVisit)){		
+				pulled = pop(toVisit);
+				}
+
 				istart = pulled.x;
 				jstart = pulled.y;
 				columns[istart] = true;
@@ -58,6 +62,7 @@ void depthFirstSearch(node** lattice, int size){
 				
 				//update arrays
 				//printf("TEST %i, %i \n",istart,jstart);
+				//free(pulled);
 				
 				//check north
 				
@@ -95,22 +100,15 @@ void depthFirstSearch(node** lattice, int size){
 			}
 			if(currentSize >= maxSize) {
 				maxSize = currentSize;
-				for(int j = 0; j < size; j++){
-					permaColumns[j] = columns[j];
-					permaRows[j] = rows[j];
-				}
+				permaColumns = columns;
+				permaRows = rows;
 			}
-			for(int j = 0; j < size; j++){
-				columns[j] = false;
-				rows[j] = false;
-			}
-
 		}
 	}
 	bool percolates = checkForPerculation(permaRows,permaColumns,size);
-	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
-	free(columns);
+	//printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
 	free(rows);
+	free(columns);
 }
 
 bool checkForPerculation(bool* rows, bool* columns, int size){

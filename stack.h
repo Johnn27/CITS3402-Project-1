@@ -17,6 +17,8 @@ void push(int x, int y, Stack * stack);
 
 stackNode pop(Stack *stack);
 
+bool hasNextPop(Stack *stack);
+
 bool checkIfPresent(int xCheck, int yCheck, Stack *stack);
 
 bool isEmpty(Stack * s);
