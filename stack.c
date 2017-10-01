@@ -50,8 +50,11 @@ void push(int x, int y, Stack * stack){ //adding an element to the end of the qu
 	}
 }
 
+bool hasNextPop(Stack *stack){
+	return!(stack->start == NULL);
+	}
+
 stackNode pop(Stack *stack){
-	if(stack->start == NULL) return;// NULL;
 	stackNode result = *stack->start;
 	stackNode * togo = stack->start;
 	stack->start = stack->start->next;

@@ -7,11 +7,11 @@
 #include "stack.h"
 
 
-bool checkIfAvailable(node tocheck);
-void pushIfNeeded(node * theNode, Stack *toVisit);
-bool checkForPerculation(bool* rows,bool* columns, int size);
+bool checkIfAvailable2(node tocheck);
+void pushIfNeeded2(node * theNode, Stack *toVisit);
+bool checkForPerculation2(bool* rows,bool* columns, int size);
 
-void depthFirstSearch(node** lattice, int size){
+void depthFirstSearch2(node** lattice, int size){
 	Stack *toVisit = initStack();  //creates a queue to make a to do list for sites to check
 	int maxSize = 0;
 	bool** visitedMatrix = (bool**)malloc(size * sizeof(bool *));
@@ -36,10 +36,9 @@ void depthFirstSearch(node** lattice, int size){
 			int jstart = j;
 			int ii;
 			int jj;
-			
 		//printf("Current row in loop is:%i \n",i); 
 //if visitedmatrix[i][j] is false		
-			pushIfNeeded(&lattice[istart][jstart],toVisit);
+			pushIfNeeded2(&lattice[istart][jstart],toVisit);
 			
 			//if(lattice[istart][jstart].populated == false){printf("EMPTY\n");}		
 			int currentSize = 0;
@@ -58,40 +57,40 @@ void depthFirstSearch(node** lattice, int size){
 				
 				//update arrays
 				//printf("TEST %i, %i \n",istart,jstart);
-				
-				//check north
-				
 				ii = istart;
 				jj = jstart;
+				//check north
+				if(lattice[ii][jj].northcon){
 				ii--;
 				if(ii == -1 ){
 				ii = size-1;	
 				}
-				pushIfNeeded(&lattice[ii][jj],toVisit);
-				
+				pushIfNeeded2(&lattice[ii][jj],toVisit);
+				printf("Pushing north neighbour at %i %i\n",j,i);
+				}
 				//check south
-				ii = istart;
-				jj = jstart;
+				if(lattice[ii][jj].southcon){
 				ii++;
 				ii = ii % size;
-				pushIfNeeded(&lattice[ii][jj], toVisit);
-
+				pushIfNeeded2(&lattice[ii][jj], toVisit);
+				printf("Pushing south neighbour \n");
+				}
 				
 				//check east
-				ii = istart;
-				jj = jstart;
+				if(lattice[ii][jj].eastcon){
 				jj++;
 				jj = jj % size;
-				pushIfNeeded(&lattice[ii][jj], toVisit);
-				
+				pushIfNeeded2(&lattice[ii][jj], toVisit);
+				printf("Pushing east neighbour \n");
+				}				
 				//check west
-				ii = istart;
-				jj = jstart;
+				if(lattice[ii][jj].westcon){
 				jj--;
 				if(jj == -1 ){
 				jj = size-1;	
 				}
-				pushIfNeeded(&lattice[ii][jj], toVisit);
+				pushIfNeeded2(&lattice[ii][jj], toVisit);
+				}
 			}
 			if(currentSize >= maxSize) {
 				maxSize = currentSize;
@@ -107,13 +106,13 @@ void depthFirstSearch(node** lattice, int size){
 
 		}
 	}
-	bool percolates = checkForPerculation(permaRows,permaColumns,size);
+	bool percolates = checkForPerculation2(permaRows,permaColumns,size);
 	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
 	free(columns);
 	free(rows);
 }
 
-bool checkForPerculation(bool* rows, bool* columns, int size){
+bool checkForPerculation2(bool* rows, bool* columns, int size){
 	bool allTrue = true;
 	for(int i = 0; i < size; i++){
 		if(!rows[i]){
@@ -135,14 +134,15 @@ bool checkForPerculation(bool* rows, bool* columns, int size){
 	return true;
 }
 
-void pushIfNeeded(node * theNode, Stack * toVisit){
-			if(checkIfAvailable(*theNode)){
+void pushIfNeeded2(node * theNode, Stack * toVisit){
+			if(checkIfAvailable2(*theNode)){
+				printf("PUSHING\n");
 			theNode->visited = true;
 			push(theNode->xcoord, theNode->ycoord, toVisit);
 		}
 }
 
-bool checkIfAvailable(node toCheck){
+bool checkIfAvailable2(node toCheck){
 	if(toCheck.visited == false){
 		if(toCheck.populated == true) return true;
 	}

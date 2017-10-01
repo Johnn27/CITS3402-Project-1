@@ -1,0 +1,64 @@
+#!/bin/bash
+
+HTML="plot.html"
+FLAG="%U"
+
+
+function build_html {
+	cat << END_END
+<html>
+<head>
+  <meta http-equiv='refresh' content='10' />
+  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+  <script type='text/javascript'>
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var options = {
+        chart: {
+          title: '$TITLE'
+        },
+        width:  600,
+        height: 400
+      };
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+      var data = new google.visualization.DataTable();
+END_END
+populatetest
+
+cat << END_END
+      chart.draw(data, options);
+          }
+  </script>
+</head>
+<body>
+  <div id='linechart_material'></div>
+</body>
+</html>
+END_END
+}
+
+
+
+function populatetest {
+
+	echo "data.addColumn('string', 'Runtime of lattice generation');"
+	echo "data.addColumn('number', 'Size of lattice with 0.8');"
+	echo "data.addColumn('number', 'Size of lattive with 0.4');"
+	for i in {0..2000..50}
+	do
+#time=$(TIMEFORMAT='%3R';time ./lab0 $i)
+echo "data.addRows([['$i',$(/usr/bin/time -f "%U" ./lattice $i 0.8 2>&1),$(/usr/bin/time -f "%U" ./lattice $i 0.4 2>&1)]]);"
+	done
+
+
+
+}
+
+
+
+rm -f $HTML
+build_html > $HTML
+echo "output is in $HTML"
+
