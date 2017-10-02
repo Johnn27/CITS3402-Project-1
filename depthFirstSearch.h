@@ -2,6 +2,6 @@
 
 
 
-void depthFirstSearch(node** lattice, int size);
+void depthFirstSearch(node** lattice, int size, int mode);
 
 bool checkForPerculation(Stack * cluster);

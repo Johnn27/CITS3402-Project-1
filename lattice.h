@@ -9,8 +9,6 @@ typedef struct {
 	bool westcon;
 } node;
 
-//#define SETSIZE 5000
-//#define prob 0.1
 
 char* setgraphnode(node n);
 

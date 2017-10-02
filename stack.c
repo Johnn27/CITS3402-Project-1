@@ -50,11 +50,11 @@ void push(int x, int y, Stack * stack){ //adding an element to the end of the qu
 	}
 }
 
-bool hasNextPop(Stack *stack){
-	return!(stack->start == NULL);
-	}
-
 stackNode pop(Stack *stack){
+	// if(stack->start == NULL) {
+	// 	printf("empty stack");
+	// 	return;// NULL;
+	// }
 	stackNode result = *stack->start;
 	stackNode * togo = stack->start;
 	stack->start = stack->start->next;
@@ -70,23 +70,3 @@ bool isEmpty(Stack * s){
 	}
 	else return false;
 }
-
-// int main(){
-	// printf("this works\n");
-	
-	// Stack * s = initStack();
-	// push(1,2,s);
-	// push(3,4,s);
-	// push(5,6,s);
-	// push(7,8,s);
-	// push(9,12,s);
-	// isEmpty(s);
-	// pop(s);
-	// pop(s);
-	// pop(s);
-	// pop(s);
-	// pop(s);
-	// pop(s);pop(s);pop(s);pop(s);pop(s);pop(s);pop(s);
-	// isEmpty(s);
-	// exit(EXIT_SUCCESS);
-// };
