@@ -2,11 +2,11 @@
 
 PROJECT = lattice 
 HEADERS = $(PROJECT).h
-OBJ     = stack.o depthFirstSearch.o lattice.o depthFirstSearch2.o
+OBJ     = stack.o depthFirstSearch.o lattice.o
 
 
-C99     =  gcc -std=c99
-CFLAGS  =  -Wall -pedantic -g 
+C99     =  cc -std=c99
+CFLAGS  =  -fopenmp -Wall -pedantic -g
 
 
 $(PROJECT) : $(OBJ)
