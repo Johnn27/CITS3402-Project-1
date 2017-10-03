@@ -178,7 +178,7 @@ srand(time(&t));
 if(linear){
 	if(typemode==1){
 	node** lattice = generateLatticeSite(size,prob);
-		if(size < 28){
+		if(size < 64 && !quietmode){
 		printgraph(lattice,size,1); 
 		}
 	depthFirstSearchLin(lattice,size,1);
@@ -186,7 +186,7 @@ if(linear){
 	}
 	if(typemode==2){
 	node** lattice = generateLatticeBond(size,prob);
-		if(size < 28){
+		if(size < 64 && !quietmode){
 		printgraph(lattice,size,2); 
 		}
 	depthFirstSearchLin(lattice,size,2);
