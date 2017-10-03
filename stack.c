@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <omp.h>
 
 #include "stack.h"
 
@@ -56,9 +57,10 @@ stackNode pop(Stack *stack){
 	// 	return;// NULL;
 	// }
 	stackNode result = *stack->start;
-	stackNode * togo = stack->start;
+	stackNode *togo = stack->start;
 	stack->start = stack->start->next;
 	//printf("popping x:%i and y:%i\n",result->x,result->y);
+	//if(result.next == NULL) printf("EMPTYNOW\n");
 	free(togo);
 	return result;
 }

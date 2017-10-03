@@ -8,10 +8,3 @@ typedef struct {
 	bool eastcon;
 	bool westcon;
 } node;
-
-
-char* setgraphnode(node n);
-
-void printGraph(node** n);
-
-node** generateLattice();
