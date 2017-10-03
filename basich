@@ -19,7 +19,7 @@ function build_html {
         chart: {
           title: '$TITLE'
         },
-        width:  600,
+        width:  800,
         height: 400
       };
       var chart = new google.charts.Line(document.getElementById('linechart_material'));
@@ -43,13 +43,17 @@ END_END
 
 function populatetest {
 
-	echo "data.addColumn('string', 'Runtime of lattice generation');"
-	echo "data.addColumn('number', 'Size of lattice with 0.8');"
-	echo "data.addColumn('number', 'Size of lattive with 0.4');"
-	for i in {0..2000..50}
+	echo "data.addColumn('string', 'Runtime of lattice searching');"
+	echo "data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Single Thread');"
+	echo "data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Multiple Threads');"
+	echo "data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Single Thread');"
+	echo "data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Multiple Thread');"
+	for i in {200..1000..100}
 	do
 #time=$(TIMEFORMAT='%3R';time ./lab0 $i)
-echo "data.addRows([['$i',$(/usr/bin/time -f "%U" ./lattice $i 0.8 2>&1),$(/usr/bin/time -f "%U" ./lattice $i 0.4 2>&1)]]);"
+echo "data.addRows([['$i',$(/usr/bin/time -f "%U" ./lattice -size $i -p 0.5 -s -l 2>&1),$(/usr/bin/time -f "%U" ./lattice -size $i -p 0.5 -s 2>&1),
+					  $(/usr/bin/time -f "%U" ./lattice -size $i -p 0.5 -b -l 2>&1),$(/usr/bin/time -f "%U" ./lattice -size $i -p 0.5 -b 2>&1)
+					  ]]);"
 	done
 
 
