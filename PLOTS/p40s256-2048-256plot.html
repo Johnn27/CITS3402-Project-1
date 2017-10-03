@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta http-equiv='refresh' content='10' />
+  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+  <script type='text/javascript'>
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var options = {
+        chart: {
+          title: 'The Runtime of Lattice program in various conditions'
+        },
+        width:  1000,
+        height: 400
+      };
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+      var data = new google.visualization.DataTable();
+data.addColumn('string', 'Length of the lattice (Node x Node)');
+data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Single Thread');
+data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Multiple Threads');
+data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Single Thread');
+data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Multiple Thread');
+data.addRows([['256',0.07,0.04,
+					  0.07,0.05
+					  ]]);
+data.addRows([['512',0.50,0.21,
+					  0.53,0.22
+					  ]]);
+data.addRows([['768',1.90,0.51,
+					  1.69,0.54
+					  ]]);
+data.addRows([['1024',4.05,1.03,
+					  4.12,1.12
+					  ]]);
+data.addRows([['1280',7.50,1.66,
+					  7.95,1.76
+					  ]]);
+data.addRows([['1536',12.57,1.72,
+					  12.78,2.79
+					  ]]);
+data.addRows([['1792',19.57,3.77,
+					  19.77,3.97
+					  ]]);
+data.addRows([['2048',28.81,3.73,
+					  29.68,5.17
+					  ]]);
+      chart.draw(data, options);
+          }
+  </script>
+</head>
+<body>
+  <div id='linechart_material'></div>
+</body>
+</html>

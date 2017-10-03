@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta http-equiv='refresh' content='10' />
+  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+  <script type='text/javascript'>
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var options = {
+        chart: {
+          title: ''
+        },
+        width:  800,
+        height: 400
+      };
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+      var data = new google.visualization.DataTable();
+data.addColumn('string', 'Length of the lattice (Node x Node)');
+data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Single Thread');
+data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Multiple Threads');
+data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Single Thread');
+data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Multiple Thread');
+data.addRows([['256',0.07,0.06,
+					  0.07,0.09
+					  ]]);
+data.addRows([['512',0.61,0.20,
+					  0.53,0.34
+					  ]]);
+data.addRows([['768',1.92,0.68,
+					  1.70,0.74
+					  ]]);
+data.addRows([['1024',4.08,0.92,
+					  3.61,1.75
+					  ]]);
+data.addRows([['1280',7.55,2.14,
+					  7.60,2.89
+					  ]]);
+data.addRows([['1536',12.65,3.30,
+					  12.73,4.45
+					  ]]);
+data.addRows([['1792',19.69,4.69,
+					  19.37,6.92
+					  ]]);
+data.addRows([['2048',28.27,6.62,
+					  29.11,8.05
+					  ]]);
+      chart.draw(data, options);
+          }
+  </script>
+</head>
+<body>
+  <div id='linechart_material'></div>
+</body>
+</html>
