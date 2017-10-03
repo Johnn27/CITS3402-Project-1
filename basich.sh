@@ -12,18 +12,20 @@ function build_html {
   <meta http-equiv='refresh' content='10' />
   <script type='text/javascript' src='https://www.google.com/jsapi'></script>
   <script type='text/javascript'>
-    google.load('visualization', '1.1', {packages: ['line']});
+    google.load('visualization', '1.1', {packages: ['corechart','line']});
     google.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var options = {
-        chart: {
-          title: '$TITLE'
-        },
+        title: '$TITLE'
         width:  1000,
-        height: 400
+        height: 600,
+		vAxis: {
+          title: 'Time (Seconds)'
+        },
+        hAxis: {title: 'Size of Lattice'}
       };
-      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+      var chart = new google.visualization.LineChart(document.getElementById('linechart_material'));
       var data = new google.visualization.DataTable();
 END_END
 populatetest

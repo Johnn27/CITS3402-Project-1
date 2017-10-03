@@ -17,12 +17,8 @@ void bondCheck(int istart, int jstart, node** lattice, int size, Stack *toVisit,
 
 
 void depthFirstSearchLin(node** lattice, int size, int siteMode){
-	// Stack *toVisit = initStack();  //creates a queue to make a to do list for sites to check
-	printf("%lu   	%lu\n", sizeof(bool),sizeof(node));
-	int maxSize = 0;
 	
-
-
+	int maxSize = 0;
 	visitedMatrix = (bool**) malloc(size * sizeof(bool *));
 	for(int i = 0; i < size; i++){
 	visitedMatrix[i] = (bool*) malloc(size * sizeof(bool));
@@ -32,14 +28,11 @@ void depthFirstSearchLin(node** lattice, int size, int siteMode){
 	bool* permaColumns = (bool*) malloc(size * sizeof(bool));
 	bool* permaRows  = (bool*) malloc(size * sizeof(bool));
 
-	
 		bool** tempVisited = (bool **) malloc(size * sizeof(bool*));
 		for(int i = 0; i < size; i++){
 			tempVisited[i] = (bool *) malloc(size * sizeof(bool));
 		}
-		//printf("%i\n", omp_get_num_threads());
 		Stack* toVisit = initStack();
-		//printf("DING\n");
 		bool* columns = (bool*) malloc(size * sizeof(bool));
 		bool* rows = (bool*) malloc(size * sizeof(bool));
 		for(int j = 0; j < size; j++){	
@@ -49,34 +42,26 @@ void depthFirstSearchLin(node** lattice, int size, int siteMode){
 				if(visitedMatrix[istart][jstart] == false){
 				pushIfNeeded(&lattice[istart][jstart],toVisit,tempVisited);
 				}
-				//if(lattice[istart][jstart].populated == false){printf("EMPTY\n");}		
 				int currentSize = 0;
 				columns = (bool*) realloc(columns, size * sizeof(bool));
 				rows = (bool*) realloc(rows, size * sizeof(bool));
-				
 				while(!isEmpty(toVisit)){
 					currentSize++;
-				
 					stackNode pulled = pop(toVisit);
-					
 					istart = pulled.x;
 					jstart = pulled.y;
 					columns[istart] = true;
 					rows[jstart] = true;
-					
 					if(siteMode == 1){
 						siteCheck(istart,jstart,lattice,size,toVisit,tempVisited);
 					}
 					else{ 
 						bondCheck(istart,jstart,lattice,size,toVisit,tempVisited);
 					}
-
 				}
 				{
-					//if(currentSize > 0) printf("current size is %i\n", currentSize);
 					if(currentSize >= maxSize) {
 						maxSize = currentSize;
-						//printf("max size is %i\n", maxSize);
 						for(int j = 0; j < size; j++){
 							permaColumns[j] = columns[j];
 							permaRows[j] = rows[j];
@@ -89,32 +74,23 @@ void depthFirstSearchLin(node** lattice, int size, int siteMode){
 				}
 
 			}
-			//printf("THIS IS DONE\n");
 		}
-			//free(lattice);
-		//free(toVisit);
 	
 	
-	bool percolates = checkForPerculation(permaRows,permaColumns,size);
-	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
+	//bool percolates = checkForPerculation(permaRows,permaColumns,size);
+
 
 
 }
 
 
 void depthFirstSearch(node** lattice, int size, int siteMode){
-	// Stack *toVisit = initStack();  //creates a queue to make a to do list for sites to check
-	printf("%lu   	%lu\n", sizeof(bool),sizeof(node));
+	omp_set_num_threads(6);
 	int maxSize = 0;
-	
-	omp_lock_t maxLock;
-	omp_init_lock(&maxLock);
-
 	visitedMatrix = (bool**) malloc(size * sizeof(bool *));
 	for(int i = 0; i < size; i++){
 	visitedMatrix[i] = (bool*) malloc(size * sizeof(bool));
 	}
-	
 	//check from the left to the right first
 	bool* permaColumns = (bool*) malloc(size * sizeof(bool));
 	bool* permaRows  = (bool*) malloc(size * sizeof(bool));
@@ -125,9 +101,7 @@ void depthFirstSearch(node** lattice, int size, int siteMode){
 		for(int i = 0; i < size; i++){
 			tempVisited[i] = (bool *) malloc(size * sizeof(bool));
 		}
-		//printf("%i\n", omp_get_num_threads());
 		Stack* toVisit = initStack();
-		//printf("DING\n");
 		bool* columns = (bool*) malloc(size * sizeof(bool));
 		bool* rows = (bool*) malloc(size * sizeof(bool));
 		#pragma omp for
@@ -138,7 +112,6 @@ void depthFirstSearch(node** lattice, int size, int siteMode){
 				if(visitedMatrix[istart][jstart] == false){
 				pushIfNeeded(&lattice[istart][jstart],toVisit,tempVisited);
 				}
-				//if(lattice[istart][jstart].populated == false){printf("EMPTY\n");}		
 				int currentSize = 0;
 				columns = (bool*) realloc(columns, size * sizeof(bool));
 				rows = (bool*) realloc(rows, size * sizeof(bool));
@@ -161,42 +134,29 @@ void depthFirstSearch(node** lattice, int size, int siteMode){
 					}
 
 				}
-				omp_set_lock(&maxLock);
 				#pragma omp critical
 				{
-					//if(currentSize > 0) printf("current size is %i\n", currentSize);
 					if(currentSize >= maxSize) {
 						maxSize = currentSize;
-						//printf("max size is %i\n", maxSize);
 						for(int j = 0; j < size; j++){
 							permaColumns[j] = columns[j];
 							permaRows[j] = rows[j];
 						}
 					}
 				}
-				omp_unset_lock(&maxLock);
 				for(int j = 0; j < size; j++){
 					columns[j] = false;
 					rows[j] = false;
 				}
 
 			}
-			//printf("THIS IS DONE\n");
 		}
-			//free(lattice);
-		//free(toVisit);
 	}
 	
-	bool percolates = checkForPerculation(permaRows,permaColumns,size);
-	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
-	omp_destroy_lock(&maxLock);
+	//bool percolates = checkForPerculation(permaRows,permaColumns,size);
 
 
 }
-
-
-
-
 
 
 void siteCheck(int istart, int jstart, node** lattice, int size, Stack *toVisit, bool** tempVisited){
@@ -286,7 +246,6 @@ bool checkForPerculation(bool* rows, bool* columns, int size){
 	}
 	return allTrue;
 	//in each item of biggest
-	
 	return true;
 }
 
@@ -304,11 +263,6 @@ bool checkIfAvailable(node toCheck, bool** temp){
 		if(toCheck.populated) return true;
 	}
 	return false;
-
-// 	if(toCheck.visited == false){
-// 		if(toCheck.populated == true) return true;
-// 	}
-// 	return false;
 }
 
 
