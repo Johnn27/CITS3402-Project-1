@@ -85,7 +85,6 @@ void depthFirstSearchLin(node** lattice, int size, int siteMode){
 
 
 void depthFirstSearch(node** lattice, int size, int siteMode){
-	omp_set_num_threads(6);
 	int maxSize = 0;
 	visitedMatrix = (bool**) malloc(size * sizeof(bool *));
 	for(int i = 0; i < size; i++){
@@ -94,7 +93,6 @@ void depthFirstSearch(node** lattice, int size, int siteMode){
 	//check from the left to the right first
 	bool* permaColumns = (bool*) malloc(size * sizeof(bool));
 	bool* permaRows  = (bool*) malloc(size * sizeof(bool));
-	omp_set_num_threads(16);
 	#pragma omp parallel 
 	{
 		bool** tempVisited = (bool **) malloc(size * sizeof(bool*));
