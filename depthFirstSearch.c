@@ -77,8 +77,8 @@ void depthFirstSearchLin(node** lattice, int size, int siteMode){
 		}
 	
 	
-	//bool percolates = checkForPerculation(permaRows,permaColumns,size);
-
+	bool percolates = checkForPerculation(permaRows,permaColumns,size);
+	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
 
 
 }
@@ -153,8 +153,8 @@ void depthFirstSearch(node** lattice, int size, int siteMode){
 		}
 	}
 	
-	//bool percolates = checkForPerculation(permaRows,permaColumns,size);
-
+	bool percolates = checkForPerculation(permaRows,permaColumns,size);
+	printf("size: %i\npercolates: %s\n",maxSize,percolates ? "true\n":"false\n");
 
 }
 

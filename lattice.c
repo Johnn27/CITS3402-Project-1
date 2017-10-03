@@ -137,10 +137,11 @@ return n;
 
 
 int main(int argc,char* argv[]){
-    int size = 200;
+	int size = 200;
 	double prob = 0.6;
 	int typemode = 1;
 	bool linear = false;
+	bool quietmode = false;
     for (int i = 1; i < argc; i++)  /* Skip argv[0] (program name). */
     {
         if (strcmp(argv[i], "-size") == 0)  /* Process optional arguments. */
@@ -161,37 +162,41 @@ int main(int argc,char* argv[]){
         {
             typemode = 2;  /* This is used as a boolean value. */
         }
+	if (strcmp(argv[i], "-q") == 0)  /* Process optional arguments. */
+        {
+            quietmode = true;  /* This is used as a boolean value. */
+        }
 		if (strcmp(argv[i], "-l") == 0)
 		{
 			linear = true;
 		}
     }
-// time_t t;
+ time_t t;
   //Create seed for random number generator
-srand((int) 1 /*time(&t)*/);
+srand(time(&t));
 
 if(linear){
 	if(typemode==1){
 	node** lattice = generateLatticeSite(size,prob);
-	depthFirstSearchLin(lattice,size,1);
 		if(size < 28){
 		printgraph(lattice,size,1); 
 		}
+	depthFirstSearchLin(lattice,size,1);
 	return 0;
 	}
 	if(typemode==2){
 	node** lattice = generateLatticeBond(size,prob);
-	depthFirstSearchLin(lattice,size,2);
 		if(size < 28){
 		printgraph(lattice,size,2); 
 		}
+	depthFirstSearchLin(lattice,size,2);
 	return 0;
 	}
 }
 
 if(typemode==1){
 node** lattice = generateLatticeSite(size,prob);
-if(size < 28){
+if(size < 64 && !quietmode){
 printgraph(lattice,size,1); 
 }
 depthFirstSearch(lattice,size,1);
@@ -199,7 +204,7 @@ depthFirstSearch(lattice,size,1);
 
 if(typemode==2){
 node** lattice = generateLatticeBond(size,prob);
-if(size < 28){
+if(size < 28 && !quietmode){
 printgraph(lattice,size,2); 
 }
 depthFirstSearch(lattice,size,2);

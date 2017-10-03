@@ -17,7 +17,7 @@ function build_html {
 
     function drawChart() {
       var options = {
-        title: '$TITLE'
+        title: '$TITLE',
         width:  1000,
         height: 600,
 		vAxis: {
@@ -51,7 +51,7 @@ function populatetest {
 	echo "data.addColumn('number', 'Size of Site Lattice with Probability of 0.5 by Multiple Threads');"
 	echo "data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Single Thread');"
 	echo "data.addColumn('number', 'Size of Bond Lattice with Probability of 0.5 by Multiple Thread');"
-	for i in {256..2048..256}
+	for i in {256..1024..256}
 	do
 #time=$(TIMEFORMAT='%3R';time ./lab0 $i)
 
